@@ -5,6 +5,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 When it is run for the first time it seeds the localStorage with a sample contact that can be 
 deleted or updated. 
 
+It is deployed here [https://ll-contactslist.herokuapp.com/](https://ll-contactslist.herokuapp.com/).
+
 In the project directory, you can run:
 
 ### `npm start`
