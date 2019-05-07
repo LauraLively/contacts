@@ -2,26 +2,21 @@ import React, { Component } from 'react';
 import SingleContact from './SingleContact';
 import styled from 'styled-components';
 import NewContact from './NewContact';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 
-
-const styles = {
-  ContactsList: {
-    padding: '5px',
-    margin: '5px',
-  },
-  header: {
-    display: 'flex',
-    alignItems: 'center'
-  }
-}
 const Container = styled.div`
   display: flex;
-  justify-content: center;
-  max-width: 100vw;
   margin: 1rem;
-  align-content: flex-start;
-  flex-flow: row wrap;
+  flex-direction: wrap;
+  justify-content: center;
+`;
+
+const Grid = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  justify-content: center;
 `;
 
 export class ContactsList extends Component {
@@ -31,13 +26,12 @@ export class ContactsList extends Component {
 
   getContacts = async () => {
     let data = this.loadContacts();
-    let contacts = data.map(contact =>
-      <SingleContact key={contact._id}
-        contact={contact}
-        refresh={this.getContacts}
-        updateContact={this.updateContact}
-        newContact={this.newContact}
-        deleteContact={this.deleteContact} />);
+    let contacts = data.map(contact => <SingleContact key={contact._id}
+      contact={contact}
+      refresh={this.getContacts}
+      updateContact={this.updateContact}
+      newContact={this.newContact}
+      deleteContact={this.deleteContact} />);
     this.setState({ contacts: contacts });
   };
 
@@ -50,7 +44,7 @@ export class ContactsList extends Component {
   }
 
   newContact = (contact) => {
-    contact._id = Math.floor(Math.random() * Math.floor(100000));
+    contact._id = Math.random() * (999999 - 100000) + 100000;
     let contacts = this.loadContacts();
     contacts.push(contact);
     this.saveContacts(contacts);
@@ -60,13 +54,16 @@ export class ContactsList extends Component {
   deleteContact = (id) => {
     let contacts = this.loadContacts();
     let updatedContacts = contacts.filter(c => c._id !== id);
-    console.log('delete', updatedContacts)
     this.saveContacts(updatedContacts);
     this.getContacts();
   }
 
   loadContacts = () => {
-    return JSON.parse(localStorage.getItem("contactList"));
+    var contacts = JSON.parse(localStorage.getItem("contactList"));
+    if (contacts === null) {
+      contacts = JSON.parse('[{"name":"Sample Contact","email":"sample@test.test","phone":"801-000-0000","_id":100}]');
+    }
+    return contacts;
   }
 
   saveContacts = (contactList) => {
@@ -80,20 +77,18 @@ export class ContactsList extends Component {
   render() {
     return (
       <>
-        <div>
-          <Navbar sticky="top" style={styles.header} bg="light" expand="lg">
-            <Navbar.Brand>Contacts</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-             <Navbar.Collapse className="justify-content-end">
-              <Nav >
-                <NewContact newContact={this.newContact} />
-              </Nav>
-            </Navbar.Collapse>
-          </Navbar>
-        </div>
-          <Container>
-              {this.state.contacts}
-          </Container>
+        <Navbar sticky="top" className="bg-light justify-content-between">
+          <Navbar.Brand >My Contacts</Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse className="justify-content-end">
+            <Navbar.Text>
+              <NewContact newContact={this.newContact} />
+            </Navbar.Text>
+          </Navbar.Collapse>
+        </Navbar>
+        <Container>
+          <Grid container>{this.state.contacts}</Grid>
+        </Container>
       </>
     )
   }

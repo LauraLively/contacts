@@ -14,8 +14,6 @@ const Form = styled.form`
   margin: 20px;
 `;
 
-
-
 export default class DeleteModal extends React.Component {
   state = {
     open: false,
@@ -32,10 +30,7 @@ export default class DeleteModal extends React.Component {
 
   handleDelete =  () => {
     this.props.deleteContact(this.props.contact._id);
-    // await fetch(`${apiURL}/contact/${this.props.contact._id}`, {
-    //   method: 'DELETE',
-    // }).then(res => console.log(res))
-    //   .catch(err => console.log(err))
+
   };
 
   render() {

@@ -1,6 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## This is a contacts list that leverages localStorage.
+
+When it is run for the first time it seeds the localStorage with a sample contact that can be 
+deleted or updated. 
 
 In the project directory, you can run:
 

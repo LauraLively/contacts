@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { apiURL } from '../config';
 import Button from '@material-ui/core/Button';
 import UpdateContact from './UpdateContact';
 import styled from 'styled-components';
 import Card from '@material-ui/core/Card';
+import Grid from '@material-ui/core/Grid';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -50,13 +50,6 @@ class SingleContact extends Component {
     isUpdating: false,
     maxWidth: 'xl',
   }
-  handleDelete = async () => {
-    await fetch(`${apiURL}/contact/${this.props.contact._id}`, {
-      method: 'DELETE'
-    }).then(res => console.log(res))
-      .then(() => this.props.refresh())
-      .catch(err => console.log(err))
-  };
 
   toggleUpdate = () => {
     this.setState({ isUpdating: !this.state.isUpdating })
@@ -98,13 +91,15 @@ class SingleContact extends Component {
     return (
       <>
         <Container>
-          <Card>
-            <CardActionArea onClick={this.handleClickOpen}>
-              <CardContent style= {styles.cardWidth}>
-                <h5>{contact.name}</h5>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          <Grid item>
+            <Card>
+              <CardActionArea onClick={this.handleClickOpen}>
+                <CardContent style={styles.cardWidth}>
+                  <h5>{contact.name}</h5>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
         </Container>
         <Dialog
           maxWidth={this.state.maxWidth}
@@ -114,9 +109,9 @@ class SingleContact extends Component {
         >
           <ContactDetails>
             <DialogContent>
-            <h3>{contact.name}</h3>
-            <h5>{contact.email}</h5>
-            <h5>{contact.phone}</h5>
+              <h3>{contact.name}</h3>
+              <h5>{contact.email}</h5>
+              <h5>{contact.phone}</h5>
             </DialogContent>
             <DialogTop id={contact.name}>
               <MoreButton >
@@ -132,7 +127,7 @@ class SingleContact extends Component {
 }
 
 const styles = {
-  cardWidth : {
+  cardWidth: {
     width: '20vw'
   }
 }
